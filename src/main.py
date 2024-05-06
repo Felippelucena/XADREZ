@@ -7,20 +7,15 @@ from peca import Peça
 
 def main():
     pygame.init()
-    tela = pygame.display.set_mode((LARGURA_TELA, ALTURA_TELA))
-    pygame.display.set_caption('Xadrez')
+    tela = pygame.display.set_mode((TAMANHO, TAMANHO))
+    pygame.display.set_caption('Xadrez')    
 
     tabuleiro = Tabuleiro()
     peças = Peça(tela)
-    relogio = pygame.time.Clock()
-    
-    
-    
+    relogio = pygame.time.Clock()  
     while True:
         relogio.tick(60)
         tela.fill((255, 255, 255))
-
-        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -39,7 +34,7 @@ def main():
           
         if peças.mouse_pressed:
             x, y = pygame.mouse.get_pos()
-            tela.blit(peças.selecionado, (x-80, y-80))
+            tela.blit(peças.peça_selecionada[3], (x-TAMANHO_QUADRADO/1.5, y-TAMANHO_QUADRADO/1.5))
 
         pygame.display.flip()
 

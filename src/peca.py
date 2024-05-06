@@ -20,16 +20,12 @@ class Peça:
                 "t": "assets/p_torre.png", "q": "assets/p_rainha.png", "r": "assets/p_rei.png"
                 }
         self.tela = tela
-        self.selecionado = None
         self.movimentos = []
         self.peça_selecionada = None
         self.mouse_pressed = False
 
 
     def desenhar_peças(self):
-        
-        #imagem do peao dentro da pasta assets:
-
         for row in range(8):
             for col in range(8):
                 peça = self.tabuleiro[row][col]
@@ -39,7 +35,7 @@ class Peça:
                     # Redimensiona a imagem para o tamanho do quadrado do tabuleiro
                     imagem = pygame.transform.scale(imagem, (TAMANHO_QUADRADO, TAMANHO_QUADRADO))
                     # Desenha a imagem na posição (row, col)
-                    self.tela.blit(imagem, (col * TAMANHO_QUADRADO+100, row * TAMANHO_QUADRADO+100))
+                    self.tela.blit(imagem, (col * TAMANHO_QUADRADO, row * TAMANHO_QUADRADO))
 
     def movimentos_possiveis(self, origem):
         row, col = origem
@@ -66,12 +62,11 @@ class Peça:
         
     def pegar_peça(self):
         x, y = pygame.mouse.get_pos()
-        row = y // TAMANHO_QUADRADO
-        col = x // TAMANHO_QUADRADO
+        row = (y // TAMANHO_QUADRADO)+1
+        col = (x // TAMANHO_QUADRADO)+1
         self.mouse_pressed = True
-        if self.tabuleiro[row-1][col-1] != " ":                
-            self.selecionado = pygame.transform.scale(pygame.image.load(self.imagens[self.tabuleiro[row-1][col-1]]), (TAMANHO_QUADRADO*1.5, TAMANHO_QUADRADO*1.5))
-            self.peça_selecionada = [self.tabuleiro[row-1][col-1], row-1, col-1]
+        if self.tabuleiro[row-1][col-1] != " ":
+            self.peça_selecionada = [self.tabuleiro[row-1][col-1], row-1, col-1,pygame.transform.scale(pygame.image.load(self.imagens[self.tabuleiro[row-1][col-1]]), (TAMANHO_QUADRADO*1.5, TAMANHO_QUADRADO*1.5)) ]
             self.movimentos = self.movimentos_possiveis((row-1, col-1))
             self.tabuleiro[row-1][col-1] = " "
         else: 
@@ -81,8 +76,8 @@ class Peça:
         self.mouse_pressed = False
         if self.peça_selecionada != None:
             x, y = pygame.mouse.get_pos()
-            row = y // TAMANHO_QUADRADO
-            col = x // TAMANHO_QUADRADO
+            row = (y // TAMANHO_QUADRADO)+1
+            col = (x // TAMANHO_QUADRADO)+1
             if row > 0 and row < 9 and col > 0 and col < 9 and (row-1, col-1) in self.movimentos:
                 self.tabuleiro[row-1][col-1] = self.peça_selecionada[0]
             else:
