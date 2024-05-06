@@ -26,8 +26,7 @@ def main():
                     
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:  # Botão esquerdo do mouse
-                    peças.soltar_peça()
-                        
+                    peças.soltar_peça()                        
                 
         tabuleiro.desenhar_tabuleiro(tela, peças.movimentos)
         peças.desenhar_peças()

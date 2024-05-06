@@ -55,20 +55,219 @@ class Peça:
                 movimentos.append((row - 1, col - 1))
             if col < 7 and self.tabuleiro[row - 1][col + 1].islower():
                 movimentos.append((row - 1, col + 1))
-
-        # Implemente lógica para outras peças (Bispo, Cavalo, Torre, Rainha, Rei)
-
+        
+        if peça == "p": # Peão preto
+            # Verifica movimento para frente
+            if self.tabuleiro[row + 1][col] == " ":
+                movimentos.append((row + 1, col))
+                # Verifica movimento duplo no primeiro movimento
+                if row == 1 and self.tabuleiro[row + 2][col] == " ":
+                    movimentos.append((row + 2, col))
+            # Verifica captura na diagonal
+            if col > 0 and self.tabuleiro[row + 1][col - 1].isupper():
+                movimentos.append((row + 1, col - 1))
+            if col < 7 and self.tabuleiro[row + 1][col + 1].isupper():
+                movimentos.append((row + 1, col + 1))
+        
+        if peça == "T" or peça == "t":  # Torre
+            
+            # Verifica movimentos para cima
+            for r in range(row - 1, -1, -1):
+                if self.tabuleiro[r][col] == " ":
+                    movimentos.append((r, col))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][col].isupper():
+                        movimentos.append((r, col))
+                    break
+            # Verifica movimentos para baixo
+            for r in range(row + 1, 8):
+                if self.tabuleiro[r][col] == " ":
+                    movimentos.append((r, col))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][col].isupper():
+                        movimentos.append((r, col))
+                    break
+            # Verifica movimentos para a esquerda
+            for c in range(col - 1, -1, -1):
+                if self.tabuleiro[row][c] == " ":
+                    movimentos.append((row, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[row][c].isupper():
+                        movimentos.append((row, c))
+                    break
+            # Verifica movimentos para a direita
+            for c in range(col + 1, 8):
+                if self.tabuleiro[row][c] == " ":
+                    movimentos.append((row, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[row][c].isupper():
+                        movimentos.append((row, c))
+                    break
+        
+        if peça == "C" or peça == "c":  # Cavalo
+            if row - 2 >= 0 and col - 1 >= 0 and (self.tabuleiro[row - 2][col - 1] == " " or peça.isupper() != self.tabuleiro[row - 2][col - 1].isupper()):
+                movimentos.append((row - 2, col - 1))
+            if row - 2 >= 0 and col + 1 < 8 and (self.tabuleiro[row - 2][col + 1] == " " or peça.isupper() != self.tabuleiro[row - 2][col + 1].isupper()):
+                movimentos.append((row - 2, col + 1))
+            if row - 1 >= 0 and col - 2 >= 0 and (self.tabuleiro[row - 1][col - 2] == " " or peça.isupper() != self.tabuleiro[row - 1][col - 2].isupper()):
+                movimentos.append((row - 1, col - 2))
+            if row - 1 >= 0 and col + 2 < 8 and (self.tabuleiro[row - 1][col + 2] == " " or peça.isupper() != self.tabuleiro[row - 1][col + 2].isupper()):
+                movimentos.append((row - 1, col + 2))
+            if row + 1 < 8 and col - 2 >= 0 and (self.tabuleiro[row + 1][col - 2] == " " or peça.isupper() != self.tabuleiro[row + 1][col - 2].isupper()):
+                movimentos.append((row + 1, col - 2))
+            if row + 1 < 8 and col + 2 < 8 and (self.tabuleiro[row + 1][col + 2] == " " or peça.isupper() != self.tabuleiro[row + 1][col + 2].isupper()):
+                movimentos.append((row + 1, col + 2))
+            if row + 2 < 8 and col - 1 >= 0 and (self.tabuleiro[row + 2][col - 1] == " " or peça.isupper() != self.tabuleiro[row + 2][col - 1].isupper()):
+                movimentos.append((row + 2, col - 1))
+            if row + 2 < 8 and col + 1 < 8 and (self.tabuleiro[row + 2][col + 1] == " " or peça.isupper() != self.tabuleiro[row + 2][col + 1].isupper()):
+                movimentos.append((row + 2, col + 1))
+        
+        if peça == "B" or peça == "b":  # Bispo
+            # Verifica movimentos na diagonal principal
+            r, c = row - 1, col - 1
+            while r >= 0 and c >= 0:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r -= 1
+                c -= 1
+            r, c = row + 1, col + 1
+            while r < 8 and c < 8:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r += 1
+                c += 1
+            # Verifica movimentos na diagonal secundária
+            r, c = row - 1, col + 1
+            while r >= 0 and c < 8:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r -= 1
+                c += 1
+            r, c = row + 1, col - 1
+            while r < 8 and c >= 0:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r += 1
+                c -= 1
+        
+        if peça == "Q" or peça == "q":  # Rainha
+            # Verifica movimentos na horizontal e vertical
+            for r in range(row - 1, -1, -1):
+                if self.tabuleiro[r][col] == " ":
+                    movimentos.append((r, col))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][col].isupper():
+                        movimentos.append((r, col))
+                    break
+            for r in range(row + 1, 8):
+                if self.tabuleiro[r][col] == " ":
+                    movimentos.append((r, col))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][col].isupper():
+                        movimentos.append((r, col))
+                    break
+            for c in range(col - 1, -1, -1):
+                if self.tabuleiro[row][c] == " ":
+                    movimentos.append((row, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[row][c].isupper():
+                        movimentos.append((row, c))
+                    break
+            for c in range(col + 1, 8):
+                if self.tabuleiro[row][c] == " ":
+                    movimentos.append((row, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[row][c].isupper():
+                        movimentos.append((row, c))
+                    break
+            # Verifica movimentos na diagonal principal
+            r, c = row - 1, col - 1
+            while r >= 0 and c >= 0:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r -= 1
+                c -= 1
+            r, c = row + 1, col + 1
+            while r < 8 and c < 8:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r += 1
+                c += 1
+            # Verifica movimentos na diagonal secundária
+            r, c = row - 1, col + 1
+            while r >= 0 and c < 8:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r -= 1
+                c += 1
+            r, c = row + 1, col - 1
+            while r < 8 and c >= 0:
+                if self.tabuleiro[r][c] == " ":
+                    movimentos.append((r, c))
+                else:
+                    if peça.isupper() != self.tabuleiro[r][c].isupper():
+                        movimentos.append((r, c))
+                    break
+                r += 1
+                c -= 1
+                
+        if peça == "R" or peça == "r":  # Rei
+            if row - 1 >= 0 and col - 1 >= 0 and (self.tabuleiro[row - 1][col - 1] == " " or peça.isupper() != self.tabuleiro[row - 1][col - 1].isupper()):
+                movimentos.append((row - 1, col - 1))
+            if row - 1 >= 0 and (self.tabuleiro[row - 1][col] == " " or peça.isupper() != self.tabuleiro[row - 1][col].isupper()):
+                movimentos.append((row - 1, col))
+            if row - 1 >= 0 and col + 1 < 8 and (self.tabuleiro[row - 1][col + 1] == " " or peça.isupper() != self.tabuleiro[row - 1][col + 1].isupper()):
+                movimentos.append((row - 1, col + 1))
+            if col - 1 >= 0 and (self.tabuleiro[row][col - 1] == " " or peça.isupper() != self.tabuleiro[row][col - 1].isupper()):
+                movimentos.append((row, col - 1))
+            if col + 1 < 8 and (self.tabuleiro[row][col + 1] == " " or peça.isupper() != self.tabuleiro[row][col + 1].isupper()):
+                movimentos.append((row, col + 1))
+            if row + 1 < 8 and col - 1 >= 0 and (self.tabuleiro[row + 1][col - 1] == " " or peça.isupper() != self.tabuleiro[row + 1][col - 1].isupper()):
+                movimentos.append((row + 1, col - 1))
+            if row + 1 < 8 and (self.tabuleiro[row + 1][col] == " " or peça.isupper() != self.tabuleiro[row + 1][col].isupper()):
+                movimentos.append((row + 1, col))
+            if row + 1 < 8 and col + 1 < 8 and (self.tabuleiro[row + 1][col + 1] == " " or peça.isupper() != self.tabuleiro[row + 1][col + 1].isupper()):
+                movimentos.append((row + 1, col + 1))      
+        
         return movimentos
         
     def pegar_peça(self):
         x, y = pygame.mouse.get_pos()
-        row = (y // TAMANHO_QUADRADO)+1
-        col = (x // TAMANHO_QUADRADO)+1
+        row = (y // TAMANHO_QUADRADO)
+        col = (x // TAMANHO_QUADRADO)
         self.mouse_pressed = True
-        if self.tabuleiro[row-1][col-1] != " ":
-            self.peça_selecionada = [self.tabuleiro[row-1][col-1], row-1, col-1,pygame.transform.scale(pygame.image.load(self.imagens[self.tabuleiro[row-1][col-1]]), (TAMANHO_QUADRADO*1.5, TAMANHO_QUADRADO*1.5)) ]
-            self.movimentos = self.movimentos_possiveis((row-1, col-1))
-            self.tabuleiro[row-1][col-1] = " "
+        if self.tabuleiro[row][col] != " ":
+            self.peça_selecionada = [self.tabuleiro[row][col], row, col,pygame.transform.scale(pygame.image.load(self.imagens[self.tabuleiro[row][col]]), (TAMANHO_QUADRADO*1.5, TAMANHO_QUADRADO*1.5)) ]
+            self.movimentos = self.movimentos_possiveis((row, col))
+            self.tabuleiro[row][col] = " "
         else: 
             self.mouse_pressed = False
             
@@ -76,10 +275,10 @@ class Peça:
         self.mouse_pressed = False
         if self.peça_selecionada != None:
             x, y = pygame.mouse.get_pos()
-            row = (y // TAMANHO_QUADRADO)+1
-            col = (x // TAMANHO_QUADRADO)+1
-            if row > 0 and row < 9 and col > 0 and col < 9 and (row-1, col-1) in self.movimentos:
-                self.tabuleiro[row-1][col-1] = self.peça_selecionada[0]
+            row = (y // TAMANHO_QUADRADO)
+            col = (x // TAMANHO_QUADRADO)
+            if row >= 0 and row < 9 and col >= 0 and col < 9 and (row, col) in self.movimentos:
+                self.tabuleiro[row][col] = self.peça_selecionada[0]
             else:
                 self.tabuleiro[self.peça_selecionada[1]][self.peça_selecionada[2]] = self.peça_selecionada[0]
                 

@@ -35,8 +35,11 @@ class Tabuleiro:
             id_col = FONTE.render(f'{casas[row]}', True, id_cor)
             tela.blit(id_col, (TAMANHO_QUADRADO/10+(row*TAMANHO_QUADRADO), (TAMANHO_QUADRADO*8-TAMANHO_QUADRADO/3))) 
         
-        for row in range(8):
+        '''for row in range(8):
             for col in range(8):
                 if (row, col) in movimentos:
-                    cor = (200, 40, 35)
-                    pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO +TAMANHO_QUADRADO/6, row * TAMANHO_QUADRADO+TAMANHO_QUADRADO/6, TAMANHO_QUADRADO/1.5, TAMANHO_QUADRADO/1.5))
+                    if (row + col) % 2 == 0:
+                        cor = (150, 90, 85)
+                    else:
+                        cor = (120, 70, 65)
+                    pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO, row * TAMANHO_QUADRADO, TAMANHO_QUADRADO, TAMANHO_QUADRADO))'''
