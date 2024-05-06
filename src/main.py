@@ -27,11 +27,11 @@ def main():
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Botão esquerdo do mouse
-                    peças.selecionar_peça()    
+                    peças.pegar_peça()    
                     
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:  # Botão esquerdo do mouse
-                    peças.selecao()
+                    peças.soltar_peça()
                         
                 
         tabuleiro.desenhar_tabuleiro(tela, peças.movimentos)

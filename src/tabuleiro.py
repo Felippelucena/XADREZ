@@ -22,6 +22,6 @@ class Tabuleiro:
                     id_cor = (234, 235, 200)
                 pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO+100, row * TAMANHO_QUADRADO+100, TAMANHO_QUADRADO, TAMANHO_QUADRADO))                    
                 id_row = FONTE.render(f'{8-row}', True, cor)
-                tela.blit(id_row, (110, 110+(row*100)))
+                tela.blit(id_row, (105, 105+(row*100)))
                 id_col = FONTE.render(f'{casas[col]}', True, id_cor)
-                tela.blit(id_col, (110+(col*100), 870))    
+                tela.blit(id_col, (185+(col*100), 875))    

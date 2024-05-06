@@ -25,6 +25,7 @@ class Peça:
         self.peça_selecionada = None
         self.mouse_pressed = False
 
+
     def desenhar_peças(self):
         
         #imagem do peao dentro da pasta assets:
@@ -62,42 +63,30 @@ class Peça:
         # Implemente lógica para outras peças (Bispo, Cavalo, Torre, Rainha, Rei)
 
         return movimentos
-    
-    def mover_peça(self, origem, destino):
-        row_origem, col_origem = origem
-        row_destino, col_destino = destino
-
-        peça = self.tabuleiro[row_origem][col_origem]
-
-        # Atualiza a posição da peça no tabuleiro
-        self.tabuleiro[row_destino][col_destino] = peça
-        self.tabuleiro[row_origem][col_origem] = " "
-
-        # Exemplo de implementação de promoção de peão (opcional)
-        if peça == "P" and row_destino == 0:  # Peão branco alcançou a última linha
-            self.tabuleiro[row_destino][col_destino] = "Q"  # Promove para Rainha
-
-        # Implemente lógica para outras situações especiais, como roque, en passant, captura de peças, etc.
         
-    def selecionar_peça(self):
+    def pegar_peça(self):
         x, y = pygame.mouse.get_pos()
         row = y // TAMANHO_QUADRADO
         col = x // TAMANHO_QUADRADO
         self.mouse_pressed = True
         if self.tabuleiro[row-1][col-1] != " ":                
             self.selecionado = pygame.transform.scale(pygame.image.load(self.imagens[self.tabuleiro[row-1][col-1]]), (TAMANHO_QUADRADO*1.5, TAMANHO_QUADRADO*1.5))
-            self.peça_selecionada = self.tabuleiro[row-1][col-1]
+            self.peça_selecionada = [self.tabuleiro[row-1][col-1], row-1, col-1]
             self.movimentos = self.movimentos_possiveis((row-1, col-1))
             self.tabuleiro[row-1][col-1] = " "
         else: 
             self.mouse_pressed = False
             
-    def selecao(self):
+    def soltar_peça(self):
         self.mouse_pressed = False
         if self.peça_selecionada != None:
             x, y = pygame.mouse.get_pos()
             row = y // TAMANHO_QUADRADO
             col = x // TAMANHO_QUADRADO
-            self.tabuleiro[row-1][col-1] = self.peça_selecionada
+            if row > 0 and row < 9 and col > 0 and col < 9 and (row-1, col-1) in self.movimentos:
+                self.tabuleiro[row-1][col-1] = self.peça_selecionada[0]
+            else:
+                self.tabuleiro[self.peça_selecionada[1]][self.peça_selecionada[2]] = self.peça_selecionada[0]
+                
             self.peça_selecionada = None
             self.movimentos = []
