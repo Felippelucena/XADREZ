@@ -1,5 +1,4 @@
 import pygame
-from const import *
 from partida import *
 
 class Peca:
@@ -240,7 +239,7 @@ class Peca:
                 movimentos.append((row + 1, col - 1))
             if row + 1 < 8 and (POSICAO_PECAS[row + 1][col] == " " or peça.isupper() != POSICAO_PECAS[row + 1][col].isupper()):
                 movimentos.append((row + 1, col))
-            if row + 1 < 8 and col + 1 < 8 and (POSICAO_PECAS[row + 1][col + 1] == " " or peça.isupper() != self.v[row + 1][col + 1].isupper()):
+            if row + 1 < 8 and col + 1 < 8 and (POSICAO_PECAS[row + 1][col + 1] == " " or peça.isupper() != POSICAO_PECAS[row + 1][col + 1].isupper()):
                 movimentos.append((row + 1, col + 1))      
         
         return movimentos
