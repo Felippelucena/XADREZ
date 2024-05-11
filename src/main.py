@@ -1,7 +1,8 @@
 import pygame
 import sys
 from menu_inicial import Menu_inicial
-from partida import Partida, TAMANHO
+from partida import Partida
+from const import *
 
 def main():
     largura_tela = TAMANHO + TAMANHO/2

@@ -1,5 +1,5 @@
 import pygame
-from partida import *
+from const import *
 
 class Menu_partida:
     def __init__(self):
@@ -11,16 +11,17 @@ class Menu_partida:
         self.botao_reiniciar = self.texto_reiniciar.get_rect(center=(TAMANHO+TAMANHO/3, TAMANHO/1.5+TAMANHO/12))
         self.texto_ver_movimentos = self.fonte.render('Ver Movimentos', True, (70, 120, 95))
         self.botao_ver_movimentos = self.texto_ver_movimentos.get_rect(center=(TAMANHO+TAMANHO/8, TAMANHO/1.5+TAMANHO/6))
+        self.texto_histotico = []
    
-    def desenhar(self, tela):
+    def desenhar(self, tela):               
         
         titulo = self.fonte.render(f'Histórico de Movimentos:', True, (70, 120, 95))
         pygame.draw.rect(tela, (234, 235, 200), (TAMANHO+5, 0, TAMANHO/2, TAMANHO/1.5))
         tela.blit(titulo, (TAMANHO+TAMANHO/7.9, 30))
-        if HISTORICO != []:
+        if self.texto_histotico != []:
             col = 20
             lin = 0
-            for i, movimento in enumerate(HISTORICO):
+            for i, movimento in enumerate(self.texto_histotico):
                 texto = self.fonte.render(f'{i+1}. {movimento}', True, (70, 120, 95))
                 tela.blit(texto, (TAMANHO+col, 50 + lin * 20))
                 lin+=1
@@ -38,4 +39,15 @@ class Menu_partida:
         tela.blit(self.texto_voltar, self.botao_voltar)
         tela.blit(self.texto_reiniciar, self.botao_reiniciar)
         tela.blit(self.texto_ver_movimentos, self.botao_ver_movimentos)
-                  
+        
+    def formatar_historico(self, dados_historico):
+        self.texto_histotico.clear()
+        for dado in dados_historico:
+            texto = f'{dado[0]}: {CASAS[dado[2]]}{abs(dado[1]-8)} para {CASAS[dado[3]]}{abs(dado[4]-8)}'
+            self.texto_histotico.append(texto)
+        if len(self.texto_histotico) > 50:
+            self.texto_histotico.pop(0)
+            
+        
+        '''for i in range(len(dados_historico)):
+            self.texto_histotico.append(f'{dados_historico[i][0]}{CASAS[dados_historico[i][3]]}{abs(dados_historico[i][4]-8)}')'''

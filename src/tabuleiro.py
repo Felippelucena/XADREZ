@@ -1,13 +1,23 @@
 import pygame
-from partida import *
+from const import *
 
 
 
 class Tabuleiro:
     def __init__(self):
         self.ver_movimentos = False
+        self.posicao_pecas = [
+            ["t", "c", "b", "d", "r", "b", "c", "t"],
+            ["p", "p", "p", "p", "p", "p", "p", "p"],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " "],
+            ["P", "P", "P", "P", "P", "P", "P", "P"],
+            ["T", "C", "B", "D", "R", "B", "C", "T"]
+        ]
 
-    def desenhar_tabuleiro(self, tela, movimentos):
+    def desenhar_tabuleiro(self, tela, movimentos, ultimo_movimento):
         
         fonte = pygame.font.SysFont('arial', TAMANHO_QUADRADO//5, True, False)
         
@@ -37,7 +47,7 @@ class Tabuleiro:
         
         for row in range(8):
             for col in range(8):
-                if (row, col) in ULTIMO_MOVIMENTO:
+                if (row, col) in ultimo_movimento:
                     if (row + col) % 2 == 0:
                         cor = (140, 230, 185)
                     else:
@@ -45,9 +55,9 @@ class Tabuleiro:
                     pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO, row * TAMANHO_QUADRADO, TAMANHO_QUADRADO, TAMANHO_QUADRADO))
                 if  self.ver_movimentos and (row, col) in movimentos:
                     if (row + col) % 2 == 0:
-                        cor = (119, 154, 88)#(150, 90, 85)
+                        cor = (70, 120, 95)#(119, 154, 88)
                     else:
-                        cor = (234, 235, 200)#(120, 70, 65)
+                        cor = (140, 230, 185)#(234, 235, 200)
                     pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO+TAMANHO_QUADRADO/10, row * TAMANHO_QUADRADO+TAMANHO_QUADRADO/10, TAMANHO_QUADRADO/1.25, TAMANHO_QUADRADO/1.25),TAMANHO_QUADRADO//10)
 
                 

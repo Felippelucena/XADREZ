@@ -1,27 +1,3 @@
-POSICAO_PECAS = [
-            ["t", "c", "b", "q", "r", "b", "c", "t"],
-            ["p", "p", "p", "p", "p", "p", "p", "p"],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            ["P", "P", "P", "P", "P", "P", "P", "P"],
-            ["T", "C", "B", "Q", "R", "B", "C", "T"]
-        ]
-IMAGENS =  {
-            "P": "assets/b_peao.png", "B": "assets/b_bispo.png", "C": "assets/b_cavalo.png",
-            "T": "assets/b_torre.png", "Q": "assets/b_rainha.png", "R": "assets/b_rei.png",
-            "p": "assets/p_peao.png", "b": "assets/p_bispo.png", "c": "assets/p_cavalo.png",
-            "t": "assets/p_torre.png", "q": "assets/p_rainha.png", "r": "assets/p_rei.png"
-        }
-VEZ_DE_JOGAR = ["P", "T", "C", "B", "Q", "R"]
-CASAS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-TAMANHO = 800
-TAMANHO_QUADRADO = TAMANHO // 8
-HISTORICO = []
-ULTIMO_MOVIMENTO = []
-VOLTAR = []
-
 import pygame
 import sys
 from tabuleiro import Tabuleiro
@@ -38,6 +14,10 @@ class Partida:
         self.relogio = pygame.time.Clock()
         self.partida = True
         self.menu_partida = Menu_partida()
+        self.dados_historico = []
+        self.historico = []
+        self.ultimo_movimento = []
+        
         
     def iniciar(self): 
         while self.partida == True:
@@ -49,7 +29,7 @@ class Partida:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:  # Botão esquerdo do mouse
-                        self.jogador.pegar_peça() 
+                        self.jogador.pegar_peça(self.tabuleiro.posicao_pecas, self.historico, self.pecas) 
                         if self.menu_partida.botao_voltar.collidepoint(event.pos):
                             self.voltar_jogada()
                         elif self.menu_partida.botao_reiniciar.collidepoint(event.pos):
@@ -60,11 +40,11 @@ class Partida:
                         
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:  # Botão esquerdo do mouse
-                        self.jogador.soltar_peça()
+                        self.jogador.soltar_peça( self.tabuleiro.posicao_pecas, self.historico, self.dados_historico, self.ultimo_movimento, self.menu_partida)
 
                             
-            self.tabuleiro.desenhar_tabuleiro(self.tela, self.jogador.movimentos)
-            self.pecas.desenhar_peças()
+            self.tabuleiro.desenhar_tabuleiro(self.tela, self.jogador.movimentos, self.ultimo_movimento)
+            self.pecas.desenhar_peças(self.tabuleiro.posicao_pecas)
             self.menu_partida.desenhar(self.tela)
             
             if self.jogador.mouse_pressed:
@@ -73,30 +53,19 @@ class Partida:
             pygame.display.flip()
     
     def voltar_jogada(self):
-        if VOLTAR != []:
-            if VEZ_DE_JOGAR[0] == "P":
-                VEZ_DE_JOGAR[:] = ["p", "t", "c", "b", "q", "r"]
-            else:
-                VEZ_DE_JOGAR[:] = ["P", "T", "C", "B", "Q", "R"]
-
-            POSICAO_PECAS[:] = VOLTAR.pop()
-            HISTORICO.pop()
-            ULTIMO_MOVIMENTO.clear()
+        if self.historico != []:
+            self.jogador.trocar_jogador()
+            self.tabuleiro.posicao_pecas[:] = self.historico.pop()
+            self.dados_historico.pop()
+            self.menu_partida.texto_histotico.pop()
+            self.ultimo_movimento.clear()
             
-    def reiniciar_partida(self,):
-        POSICAO_PECAS[:] = [
-            ["t", "c", "b", "q", "r", "b", "c", "t"],
-            ["p", "p", "p", "p", "p", "p", "p", "p"],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " ", " ", " "],
-            ["P", "P", "P", "P", "P", "P", "P", "P"],
-            ["T", "C", "B", "Q", "R", "B", "C", "T"]
-        ]
-        VEZ_DE_JOGAR[:] = ["P", "T", "C", "B", "Q", "R"]
-        HISTORICO.clear()
-        VOLTAR.clear()
-        ULTIMO_MOVIMENTO[:] = []
-        
-        
+    def reiniciar_partida(self):
+        if self.historico != []:
+            self.tabuleiro.posicao_pecas[:] = self.historico[0]
+            self.jogador.jogador_atual[:] = ["P", "T", "C", "B", "D", "R"]
+            self.dados_historico.clear()
+            self.historico.clear()
+            self.ultimo_movimento.clear()
+            self.menu_partida.texto_histotico.clear()
+            
