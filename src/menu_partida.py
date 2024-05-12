@@ -22,11 +22,13 @@ class Menu_partida:
             lin = 0
             for i, movimento in enumerate(self.texto_histotico):
                 if i%2 == 0:
-                    texto = self.fonte.render(f'{i+1}. {movimento}', True, (70, 120, 95))
-                    tela.blit(texto, (TAMANHO+col, 50 + lin * 20))
+                    contator_rodada = self.fonte.render(f'{i+1}. ', True, (70, 120, 95))
+                    texto = self.fonte.render(f'{movimento}', True, (70, 120, 95))
+                    tela.blit(contator_rodada, (TAMANHO+col, 50 + lin * 20))
+                    tela.blit(texto, (TAMANHO+col+30, 50 + lin * 20))
                 else:
                     texto = self.fonte.render(f'{movimento}', True, (70, 120, 95))
-                    tela.blit(texto, (TAMANHO+col+70, 50 + lin * 20))
+                    tela.blit(texto, (TAMANHO+col+80, 50 + lin * 20))
                     lin+=1
                 if i in [31,61]:
                     col+=140
@@ -48,6 +50,9 @@ class Menu_partida:
         dado = dados_historico[-1]
         if dado[0] == 'p' or dado[0] == 'P':
             texto = f'{CASAS[dado[3]]}{abs(dado[4]-8)}'
+            #el passant
+            if dado[3] != dado[2] and tabuleiro[dado[4]][dado[3]] == " ":
+                texto = f'{CASAS[dado[2]]}x{CASAS[dado[3]]}{abs(dado[4]-8)}'
         else:
             texto = f'{SIMBOLOS[dado[0]]}{CASAS[dado[3]]}{abs(dado[4]-8)}'
             

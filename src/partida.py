@@ -29,7 +29,7 @@ class Partida:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:  # Botão esquerdo do mouse
-                        self.jogador.pegar_peça(self.tabuleiro.posicao_pecas, self.historico, self.pecas) 
+                        self.jogador.pegar_peça(self.tabuleiro.posicao_pecas, self.historico, self.pecas, self.ultimo_movimento) 
                         if self.menu_partida.botao_voltar.collidepoint(event.pos):
                             self.voltar_jogada()
                         elif self.menu_partida.botao_reiniciar.collidepoint(event.pos):
@@ -48,7 +48,7 @@ class Partida:
                         
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:  # Botão esquerdo do mouse
-                        moveu = self.jogador.soltar_peça( self.tabuleiro.posicao_pecas, self.historico, self.dados_historico, self.ultimo_movimento)
+                        moveu = self.jogador.soltar_peça( self.tabuleiro.posicao_pecas, self.historico, self.dados_historico, self.ultimo_movimento, self.pecas)
                         if moveu:
                             self.menu_partida.formatar_historico(self.dados_historico, self.historico)
                     if event.button == 3:

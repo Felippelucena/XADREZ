@@ -1,4 +1,4 @@
-TAMANHO = 600
+TAMANHO = 650
 TAMANHO_QUADRADO = TAMANHO // 8
 CASAS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 SIMBOLOS = {'P':'♙', 'B':'♗', 'C':'♘', 'T':'♖', 'D':'♕', 'R':'♔', 'p':'♟', 'b':'♝', 'c':'♞', 't':'♜', 'd':'♛', 'r':'♚'}

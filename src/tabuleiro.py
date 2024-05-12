@@ -22,43 +22,43 @@ class Tabuleiro:
         fonte = pygame.font.SysFont('arial', TAMANHO_QUADRADO//5, True, False)
         
         #Desenhar tabuleiro
-        for row in range(8):
+        for lin in range(8):
             for col in range(8):
-                if (row + col) % 2 == 0:
+                if (lin + col) % 2 == 0:
                     cor = (234, 235, 200)
                     id_cor = (119, 154, 88)
                 else:
                     cor = (119, 154, 88)
                     id_cor = (234, 235, 200)
-                pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO, row * TAMANHO_QUADRADO, TAMANHO_QUADRADO, TAMANHO_QUADRADO))
+                pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO, lin * TAMANHO_QUADRADO, TAMANHO_QUADRADO, TAMANHO_QUADRADO))
                 
         #Desenhar ids das linhas e colunas
-        for row in range(8):              
-            if (row-1) % 2 == 0:
+        for lin in range(8):              
+            if (lin-1) % 2 == 0:
                 cor = (234, 235, 200)
                 id_cor = (119, 154, 88)
             else:
                 cor = (119, 154, 88)
                 id_cor = (234, 235, 200)              
-            id_row = fonte.render(f'{8-row}', True, cor)
-            tela.blit(id_row, (TAMANHO_QUADRADO/10, TAMANHO_QUADRADO/10+(row*TAMANHO_QUADRADO)))
-            id_col = fonte.render(f'{CASAS[row]}', True, id_cor)
-            tela.blit(id_col, (TAMANHO_QUADRADO/10+(row*TAMANHO_QUADRADO), (TAMANHO_QUADRADO*8-TAMANHO_QUADRADO/3))) 
+            id_lin = fonte.render(f'{8-lin}', True, cor)
+            tela.blit(id_lin, (TAMANHO_QUADRADO/10, TAMANHO_QUADRADO/10+(lin*TAMANHO_QUADRADO)))
+            id_col = fonte.render(f'{CASAS[lin]}', True, id_cor)
+            tela.blit(id_col, (TAMANHO_QUADRADO/10+(lin*TAMANHO_QUADRADO), (TAMANHO_QUADRADO*8-TAMANHO_QUADRADO/3))) 
         
-        for row in range(8):
+        for lin in range(8):
             for col in range(8):
-                if (row, col) in ultimo_movimento:
-                    if (row + col) % 2 == 0:
+                if (lin, col) in ultimo_movimento:
+                    if (lin + col) % 2 == 0:
                         cor = (140, 230, 185)
                     else:
                         cor = (70, 120, 95)
-                    pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO, row * TAMANHO_QUADRADO, TAMANHO_QUADRADO, TAMANHO_QUADRADO))
-                if  self.ver_movimentos and (row, col) in movimentos:
-                    if (row + col) % 2 == 0:
+                    pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO, lin * TAMANHO_QUADRADO, TAMANHO_QUADRADO, TAMANHO_QUADRADO))
+                if  self.ver_movimentos and (lin, col) in movimentos:
+                    if (lin + col) % 2 == 0:
                         cor = (70, 120, 95)
                     else:
                         cor = (140, 230, 185)
                     #criar circulo com 50 por cento de transparencia:
-                    pygame.draw.circle(tela, cor, (col * TAMANHO_QUADRADO+TAMANHO_QUADRADO//2, row * TAMANHO_QUADRADO+TAMANHO_QUADRADO//2), TAMANHO_QUADRADO//4)
+                    pygame.draw.circle(tela, cor, (col * TAMANHO_QUADRADO+TAMANHO_QUADRADO//2, lin * TAMANHO_QUADRADO+TAMANHO_QUADRADO//2), TAMANHO_QUADRADO//4)
 
                 

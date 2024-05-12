@@ -12,32 +12,35 @@ class Jogador:
         self.imagens = IMAGENS
         self.jogador_atual = ["P", "T", "C", "B", "D", "R"]
         
-    def pegar_peça(self, posicao_pecas, historico, pecas):
+    def pegar_peça(self, posicao_pecas, historico, pecas, ultimo_movimento):
         x, y = pygame.mouse.get_pos()
-        row = (y // TAMANHO_QUADRADO)
+        lin = (y // TAMANHO_QUADRADO)
         col = (x // TAMANHO_QUADRADO)
-        if row >= 0 and row < 8 and col >= 0 and col < 8 and posicao_pecas[row][col] != " " and posicao_pecas[row][col] in self.jogador_atual:
+        if lin >= 0 and lin < 8 and col >= 0 and col < 8 and posicao_pecas[lin][col] != " " and posicao_pecas[lin][col] in self.jogador_atual:
             self.esquerdo_pressionado = True
-            self.origem_peca_selecionada = [posicao_pecas[row][col], row, col,pygame.transform.scale(pygame.image.load(self.imagens[posicao_pecas[row][col]]), (TAMANHO_QUADRADO*1.5, TAMANHO_QUADRADO*1.5)) ]
-            self.movimentos = pecas.movimentos_possiveis((row, col), posicao_pecas)
+            self.origem_peca_selecionada = [posicao_pecas[lin][col], lin, col,pygame.transform.scale(pygame.image.load(self.imagens[posicao_pecas[lin][col]]), (TAMANHO_QUADRADO*1.5, TAMANHO_QUADRADO*1.5)) ]
+            self.movimentos = pecas.movimentos_possiveis((lin, col), posicao_pecas, ultimo_movimento)
             historico.append(copy.deepcopy(posicao_pecas))
-            posicao_pecas[row][col] = " "
+            posicao_pecas[lin][col] = " "
     
     def movendo_peça(self):
             x, y = pygame.mouse.get_pos()
             self.tela.blit(self.origem_peca_selecionada[3], (x-TAMANHO_QUADRADO/1.5, y-TAMANHO_QUADRADO/1.5))
             
-    def soltar_peça(self, posicao_pecas, historico, dados_historico,ultimo_movimento):
+    def soltar_peça(self, posicao_pecas, historico, dados_historico,ultimo_movimento, pecas):
         self.esquerdo_pressionado = False
         if self.origem_peca_selecionada != None:
             x, y = pygame.mouse.get_pos()
-            row = (y // TAMANHO_QUADRADO)
+            lin = (y // TAMANHO_QUADRADO)
             col = (x // TAMANHO_QUADRADO)
-            if row >= 0 and row < 9 and col >= 0 and col < 9 and (row, col) in self.movimentos:
-                posicao_pecas[row][col] = self.origem_peca_selecionada[0]
+            if lin >= 0 and lin < 9 and col >= 0 and col < 9 and (lin, col) in self.movimentos:
+                posicao_pecas[lin][col] = self.origem_peca_selecionada[0]
                 self.trocar_jogador()
-                dados_historico.append([self.origem_peca_selecionada[0], self.origem_peca_selecionada[1], self.origem_peca_selecionada[2], col, row])
-                ultimo_movimento[:] = [(self.origem_peca_selecionada[1],self.origem_peca_selecionada[2]), (row, col)]
+                pecas.promocao_peao(lin, col, posicao_pecas, self.origem_peca_selecionada[0])
+                pecas.el_passant(lin, col, posicao_pecas, ultimo_movimento, self.origem_peca_selecionada[0])
+                
+                dados_historico.append([self.origem_peca_selecionada[0], self.origem_peca_selecionada[1], self.origem_peca_selecionada[2], col, lin])
+                ultimo_movimento[:] = [(self.origem_peca_selecionada[1],self.origem_peca_selecionada[2]), (lin, col)]
                 self.origem_peca_selecionada = None
                 self.movimentos = []
                 return True
