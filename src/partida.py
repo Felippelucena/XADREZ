@@ -36,20 +36,35 @@ class Partida:
                             self.reiniciar_partida()
                         elif self.menu_partida.botao_ver_movimentos.collidepoint(event.pos):
                             self.tabuleiro.ver_movimentos = not self.tabuleiro.ver_movimentos
+                    if event.button == 3: # Botão direito do mouse
+                        if self.jogador.esquerdo_pressionado:
+                            self.jogador.esquerdo_pressionado = False
+                            self.jogador.movimentos = []
+                            self.tabuleiro.posicao_pecas = self.historico[-1]
+                        else :
+                            #desenhar seta para simular movimento
+                            self.jogador.direito_pressionado = True
                            
                         
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:  # Botão esquerdo do mouse
-                        self.jogador.soltar_peça( self.tabuleiro.posicao_pecas, self.historico, self.dados_historico, self.ultimo_movimento, self.menu_partida)
+                        moveu = self.jogador.soltar_peça( self.tabuleiro.posicao_pecas, self.historico, self.dados_historico, self.ultimo_movimento)
+                        if moveu:
+                            self.menu_partida.formatar_historico(self.dados_historico, self.historico)
+                    if event.button == 3:
+                        self.jogador.direito_pressionado = False
 
                             
             self.tabuleiro.desenhar_tabuleiro(self.tela, self.jogador.movimentos, self.ultimo_movimento)
             self.pecas.desenhar_peças(self.tabuleiro.posicao_pecas)
             self.menu_partida.desenhar(self.tela)
             
-            if self.jogador.mouse_pressed:
+            if self.jogador.esquerdo_pressionado:
                 self.jogador.movendo_peça()
 
+            if self.jogador.direito_pressionado:
+                self.jogador.criar_seta()
+                
             pygame.display.flip()
     
     def voltar_jogada(self):
@@ -58,7 +73,11 @@ class Partida:
             self.tabuleiro.posicao_pecas[:] = self.historico.pop()
             self.dados_historico.pop()
             self.menu_partida.texto_histotico.pop()
-            self.ultimo_movimento.clear()
+            if self.dados_historico != []:
+                movimento = self.dados_historico[-1]
+                self.ultimo_movimento = [(movimento[1],movimento[2]), (movimento[4], movimento[3])]
+            else:
+                self.ultimo_movimento.clear()
             
     def reiniciar_partida(self):
         if self.historico != []:

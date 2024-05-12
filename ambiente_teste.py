@@ -18,7 +18,7 @@ tela = pygame.display.set_mode((largura, altura))
 
 
 relogio = pygame.time.Clock() # Inicia o Controle de FPS
-fonte = pygame.font.SysFont('arial', 30, True, False)
+fonte = pygame.font.SysFont('Segoe UI Symbol', 30, True, False)
 
 while True:
     relogio.tick(60) #seta 60 Frames por segundo

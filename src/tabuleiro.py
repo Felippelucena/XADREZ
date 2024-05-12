@@ -55,9 +55,10 @@ class Tabuleiro:
                     pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO, row * TAMANHO_QUADRADO, TAMANHO_QUADRADO, TAMANHO_QUADRADO))
                 if  self.ver_movimentos and (row, col) in movimentos:
                     if (row + col) % 2 == 0:
-                        cor = (70, 120, 95)#(119, 154, 88)
+                        cor = (70, 120, 95)
                     else:
-                        cor = (140, 230, 185)#(234, 235, 200)
-                    pygame.draw.rect(tela, cor, (col * TAMANHO_QUADRADO+TAMANHO_QUADRADO/10, row * TAMANHO_QUADRADO+TAMANHO_QUADRADO/10, TAMANHO_QUADRADO/1.25, TAMANHO_QUADRADO/1.25),TAMANHO_QUADRADO//10)
+                        cor = (140, 230, 185)
+                    #criar circulo com 50 por cento de transparencia:
+                    pygame.draw.circle(tela, cor, (col * TAMANHO_QUADRADO+TAMANHO_QUADRADO//2, row * TAMANHO_QUADRADO+TAMANHO_QUADRADO//2), TAMANHO_QUADRADO//4)
 
                 
